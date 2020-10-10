@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="chatter:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>chatter</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="chatter-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="chatter:war exploded" />
+    </root>
+  </artifact>
+</component>
