@@ -33,6 +33,7 @@
     <input type="submit" name="getmessage" value="Filter"/>
     <input type="submit" name="clear" value="Clear">
     <input type="submit" name="download" value="Download">
+    <input type="submit" name="downloadXML" value="Download as XML"/>
 
 </form>
 
