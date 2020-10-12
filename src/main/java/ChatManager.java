@@ -62,6 +62,17 @@ public class ChatManager {
         return log;
     }
 
+    public String[][] getLogArray() {
+        int size = dates.size();
+        String[][] log = new String[size][3];
+        for(int i = 0; i < size; i++) {
+            log[i][0] = names.get(i);
+            log[i][1] = messages.get(i);
+            log[i][2] = dates.get(i).toString();
+        }
+        return log;
+    }
+
     public String getLog(Date from, Date to) {
         int size = dates.size();
         String log = "";

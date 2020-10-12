@@ -1,9 +1,20 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,6 +123,55 @@ public class BasicServlet extends HttpServlet {
                 out.close();
 
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (request.getParameter("downloadXML") != null) {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder;
+
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
+
+            try {
+                dBuilder = dbFactory.newDocumentBuilder();
+                Document doc = dBuilder.newDocument();
+                // add root element
+                Element rootElem = doc.createElementNS("https://www.soen387.com/assignment1", "Messages");
+                // append root element to document
+                doc.appendChild(rootElem);
+
+                String[][] info = cm.getLogArray();
+
+                for(int i = 0; i < info.length; i++) {
+                    Element message = doc.createElement("Message");
+                    Element nameNode = doc.createElement("Name");
+                    nameNode.appendChild(doc.createTextNode(info[i][0]));
+                    message.appendChild(nameNode);
+                    Element messageNode = doc.createElement("Message");
+                    messageNode.appendChild(doc.createTextNode(info[i][1]));
+                    message.appendChild(messageNode);
+                    Element dateNode = doc.createElement("Date");
+                    dateNode.appendChild(doc.createTextNode(info[i][2]));
+                    message.appendChild(dateNode);
+                    rootElem.appendChild(message);
+                }
+
+                // create in xml format
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                // for formatting
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+                transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
+                final DOMSource source = new DOMSource(doc);
+                // output
+                ServletOutputStream out = response.getOutputStream();
+                transformer.transform(source, new StreamResult(out));
+                out.flush();
+                out.close();
+
+            } catch (ParserConfigurationException | TransformerException e) {
                 e.printStackTrace();
             }
         }
