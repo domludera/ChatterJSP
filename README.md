@@ -1,8 +1,11 @@
 # ChatterJSP
 ## Group members
 Jack Burns
+
 Dominik Ludera
+
 Zi Li Wang
+
 Anna Kmieciak
 
 ## **CURL Methods**
