@@ -23,9 +23,10 @@ body {
 }
 
 .header{
-    color:white;
+    color:black;
     grid-column: 1/4;
     font-family:sans-serif;
+    background-color: lightgrey;
 }
 
 .content-large{
@@ -35,6 +36,13 @@ body {
     border:solid 2px;
     font-family:sans-serif;
     background-color: white;
+    overflow: hidden;
+    overflow-y:scroll;
+    scroll-snap-type: y proximity;
+}
+
+.content-large>p:last-child{
+    scroll-snap-align: end;
 }
 
 .content-small{

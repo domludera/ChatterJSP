@@ -29,7 +29,7 @@
     <div class = "footer">
         <form action="BasicServlet" method="post">
             <input type="text" name="name" value="<%=session.getAttribute("n")%>" hidden/>
-            Message: <input type="text" name="message"/>
+            <input type="text" name="message"/>
             <input type="submit" name="postmessage" value="Post"/>
         </form>
     </div>
