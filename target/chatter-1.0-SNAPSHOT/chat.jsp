@@ -19,7 +19,7 @@
     </div>
     <div class = "content-large">
         <%
-    if (session.getAttribute("n") == null) {
+            if (session.getAttribute("n") == null) {
                 session.setAttribute("n", request.getParameter("name"));
             }
         %>
@@ -28,7 +28,7 @@
     </div>
     <div class = "footer">
         <form action="BasicServlet" method="post">
-    <input type="text" name="name" value="<%=session.getAttribute("n")%>" hidden/>
+            <input type="text" name="name" value="<%=session.getAttribute("n")%>" hidden/>
             <input type="text" name="message"/>
             <input type="submit" name="postmessage" value="Post"/>
         </form>
@@ -37,17 +37,15 @@
         <form action="BasicServlet" method="get">
             <input type="date" id="from" name="from">
             <input type="date" id="to" name="to">
-
-    <select name="format">
-        <option value="plain">plain/text</option>
-        <option value="xml">xml</option>
-    </select>
-    <br/>
-    <button type="submit" name="getmessage" value="Filter"/>
-    <button type="submit" name="clear" value="Clear">
-    <br/>
-    <button type="submit" name="download" value="Download">
-
+            <select name="format">
+                <option value="plain">plain/text</option>
+                <option value="xml">xml</option>
+            </select>
+            <br/>
+            <input type="submit" name="getmessage" value="Filter"/>
+            <input type="submit" name="clear" value="Clear">
+            <br/>
+            <input type="submit" name="download" value="Download">
         </form>
     </div>
 </div>
