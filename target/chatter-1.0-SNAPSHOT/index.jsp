@@ -16,9 +16,8 @@
 <h1>${s}</h1>
 
 
-
 <form action="BasicServlet" method="post">
-    Username: <input type = "text" name = "name" />
+    Username: <input type="text" name="name"/>
     Message: <input type="text" name="message"/>
     <input type="submit" name="postmessage" value="Post"/>
     <input type="submit" name="clear" value="Clear">
