@@ -1,4 +1,9 @@
 # ChatterJSP
+## Group members
+Jack Burns
+Dominik Ludera
+Zi Li Wang
+Anna Kmieciak
 
 ## **CURL Methods**
 *GET request:* curl  http://localhost:8080/chatter_war/BasicServlet
