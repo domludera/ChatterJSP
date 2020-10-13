@@ -100,79 +100,83 @@ public class BasicServlet extends HttpServlet {
             request.getRequestDispatcher("chat.jsp").forward(request, response);
 
         } else if (request.getParameter("download") != null) {
+            String[][] info = cm.getLogArray();
+            if (request.getParameter("format").equals("plain")) {
 
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=temp.txt");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename=temp.txt");
 
-            try {
-                ServletOutputStream out = response.getOutputStream();
-                StringBuilder sb = new StringBuilder(cm.getLog());
-                sb.append(System.lineSeparator());
-                String logS = sb.toString();
+                try {
+                    ServletOutputStream out = response.getOutputStream();
+                    StringBuilder sb = new StringBuilder();
+                    for(int i =0; i< info.length;i++){
+                        sb.append("name: "+info[i][0]+"\nmessage: "+info[i][1]+"\ndata: "+info[i][2]+"\n\n");
+                    }
+                    sb.append(System.lineSeparator());
 
-                InputStream in =
-                        new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
+                    InputStream in =
+                            new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
 
-                byte[] outputByte = new byte[sb.length()];
-                //copy binary contect to output stream
-                while (in.read(outputByte, 0, sb.length()) != -1) {
-                    out.write(outputByte, 0, sb.length());
+                    byte[] outputByte = new byte[sb.length()];
+                    //copy binary contect to output stream
+                    while (in.read(outputByte, 0, sb.length()) != -1) {
+                        out.write(outputByte, 0, sb.length());
+                    }
+                    in.close();
+                    out.flush();
+                    out.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                in.close();
-                out.flush();
-                out.close();
+            } else if (request.getParameter("format").equals("xml")) {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (request.getParameter("downloadXML") != null) {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder;
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
 
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
+                try {
+                    dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.newDocument();
+                    // add root element
+                    Element rootElem = doc.createElementNS("https://www.soen387.com/assignment1", "Messages");
+                    // append root element to document
+                    doc.appendChild(rootElem);
 
-            try {
-                dBuilder = dbFactory.newDocumentBuilder();
-                Document doc = dBuilder.newDocument();
-                // add root element
-                Element rootElem = doc.createElementNS("https://www.soen387.com/assignment1", "Messages");
-                // append root element to document
-                doc.appendChild(rootElem);
 
-                String[][] info = cm.getLogArray();
+                    for (int i = 0; i < info.length; i++) {
+                        Element message = doc.createElement("Message");
+                        Element nameNode = doc.createElement("Name");
+                        nameNode.appendChild(doc.createTextNode(info[i][0]));
+                        message.appendChild(nameNode);
+                        Element messageNode = doc.createElement("Message");
+                        messageNode.appendChild(doc.createTextNode(info[i][1]));
+                        message.appendChild(messageNode);
+                        Element dateNode = doc.createElement("Date");
+                        dateNode.appendChild(doc.createTextNode(info[i][2]));
+                        message.appendChild(dateNode);
+                        rootElem.appendChild(message);
+                    }
 
-                for(int i = 0; i < info.length; i++) {
-                    Element message = doc.createElement("Message");
-                    Element nameNode = doc.createElement("Name");
-                    nameNode.appendChild(doc.createTextNode(info[i][0]));
-                    message.appendChild(nameNode);
-                    Element messageNode = doc.createElement("Message");
-                    messageNode.appendChild(doc.createTextNode(info[i][1]));
-                    message.appendChild(messageNode);
-                    Element dateNode = doc.createElement("Date");
-                    dateNode.appendChild(doc.createTextNode(info[i][2]));
-                    message.appendChild(dateNode);
-                    rootElem.appendChild(message);
+                    // create in xml format
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    // for formatting
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                    transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+                    transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
+                    final DOMSource source = new DOMSource(doc);
+                    // output
+                    ServletOutputStream out = response.getOutputStream();
+                    transformer.transform(source, new StreamResult(out));
+                    out.flush();
+                    out.close();
+
+                } catch (ParserConfigurationException | TransformerException e) {
+                    e.printStackTrace();
                 }
-
-                // create in xml format
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                // for formatting
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
-                transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
-                final DOMSource source = new DOMSource(doc);
-                // output
-                ServletOutputStream out = response.getOutputStream();
-                transformer.transform(source, new StreamResult(out));
-                out.flush();
-                out.close();
-
-            } catch (ParserConfigurationException | TransformerException e) {
-                e.printStackTrace();
             }
         }
 

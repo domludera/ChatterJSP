@@ -37,13 +37,15 @@
         <form action="BasicServlet" method="get">
             <input type="date" id="from" name="from">
             <input type="date" id="to" name="to">
-            <input type="text" name="format" value="plain">
-            <br/>
-            <button type="submit" name="getmessage" value="Filter">Get Message</button>
-            <button type="submit" name="clear" value="Clear">Clear</button>
-            <br/>
-            <button type="submit" name="download" value="Download">Download</button>
-            <button type="submit" name="downloadXML" value="Download as XML"/>Download XML</button>
+
+    <select name="format">
+        <option value="plain">plain/text</option>
+        <option value="xml">xml</option>
+    </select>
+
+    <input type="submit" name="getmessage" value="Filter"/>
+    <input type="submit" name="clear" value="Clear">
+    <input type="submit" name="download" value="Download">
 
         </form>
     </div>
