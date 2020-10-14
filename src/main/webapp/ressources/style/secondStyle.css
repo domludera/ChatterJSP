@@ -1,0 +1,81 @@
+input[type = date], input[type = text], input[type = submit]{
+    background-color: gold;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+}
+
+body {
+    border:0;
+
+}
+
+.container{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows:100px 50px 110px 1fr;
+    gap:10px;
+
+    background-color: dimgray;
+    margin:auto;
+}
+
+.header{
+    color:gold;
+    grid-row: 1/2;
+    font-family:sans-serif;
+    background-color: darkgray;
+}
+
+.content-large{
+    grid-row: 4/5;
+    border:darkgray;
+    border:solid 2px;
+    font-family:sans-serif;
+    background-color: black;
+
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.content-large>p:last-child{
+    /*scroll-snap-align: end;*/
+}
+
+.content-large>p{
+    color:gold;
+    background-color: dimgray;
+}
+
+.content-small{
+    grid-row: 3/4;
+}
+
+.footer{
+    grid-row: 2/3;
+}
+
+
+button{
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+}
+
+select{
+    background-color: gold;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+}
