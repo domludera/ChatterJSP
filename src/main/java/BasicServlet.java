@@ -189,7 +189,12 @@ public class BasicServlet extends HttpServlet {
         else {
             s = cm.getLog();
             request.setAttribute("s", s);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            String reqURI = request.getRequestURI();
+            if(reqURI.contains("BasicServlet")){
+                request.getRequestDispatcher("chat.jsp").forward(request, response);
+            } else{
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
         }
 
     }

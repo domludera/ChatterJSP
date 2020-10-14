@@ -39,18 +39,19 @@
     </style>
 </head>
 <body>
+<%
+    response.setIntHeader("Refresh", 5);
+%>
 <div class="container">
     <div class="header">
         <h1>Chatter App</h1>
     </div>
-    <div class="content-large">
-
-        <%
-            if (session.getAttribute("n") == null) {
-                session.setAttribute("n", request.getParameter("name"));
-            }
-        %>
-
+    <div class="content-large" id="message-content">
+    <%
+        if (session.getAttribute("n") == null) {
+            session.setAttribute("n", request.getParameter("name"));
+        }
+    %>
         <p>${s}</p>
 
     </div>
@@ -85,5 +86,9 @@
         </form>
     </div>
 </div>
+<script>
+    var objDiv = document.getElementById("message-content");
+    objDiv.scrollTop = objDiv.scrollHeight;
+</script>
 </body>
 </html>
