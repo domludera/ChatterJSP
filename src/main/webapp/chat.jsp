@@ -44,13 +44,13 @@
         <h1>Chatter App</h1>
     </div>
     <div class="content-large">
-        <%
-            if (session.getAttribute("n") == null) {
-                session.setAttribute("n", request.getParameter("name"));
-            }
-        %>
-
+    <%
+        if (session.getAttribute("n") == null) {
+            session.setAttribute("n", request.getParameter("name"));
+        }
+    %>
         <p>${s}</p>
+
     </div>
     <div class="footer">
         <form action="BasicServlet" method="post">

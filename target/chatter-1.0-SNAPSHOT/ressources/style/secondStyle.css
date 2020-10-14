@@ -17,10 +17,10 @@ body {
     width: 100vw;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows:100px 50px 110px 1fr;
+    grid-template-rows:100px 100px 110px 1fr;
     gap:10px;
 
-    background-color: dimgray;
+    background-color: black;
     margin:auto;
 }
 
@@ -28,27 +28,34 @@ body {
     color:gold;
     grid-row: 1/2;
     font-family:sans-serif;
-    background-color: darkgray;
+    background-color: black;
 }
 
 .content-large{
-    grid-row: 4/5;
-    border:darkgray;
+    grid-row: 5/6;
+    border:black;
     border:solid 2px;
     font-family:sans-serif;
     background-color: black;
 
-    display: flex;
+    display: flex ;
+
     flex-direction: column-reverse;
+
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    height: 100%;
+
+    scroll-snap-type: y mandatory;
 }
 
 .content-large>p:last-child{
-    /*scroll-snap-align: end;*/
+    scroll-snap-align: end;
 }
 
 .content-large>p{
     color:gold;
-    background-color: dimgray;
+    background-color: black;
 }
 
 .content-small{
