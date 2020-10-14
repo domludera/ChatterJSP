@@ -40,7 +40,8 @@ body {
     background-color: white;
     overflow: hidden;
     overflow-y:scroll;
-    scroll-snap-type: y proximity;
+    height: 100%;
+    scroll-snap-type: y mandatory;
 }
 
 .content-large>p:last-child{
