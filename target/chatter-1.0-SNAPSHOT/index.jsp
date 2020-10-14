@@ -18,16 +18,25 @@
 <body class="text-center">
 
 
-<form class="form-signin" action="BasicServlet" method="post">
+<form id="getin" class="form-signin" action="BasicServlet" method="post">
 
     <h1 class="h3 mb-3 font-weight-normal">Chatter JSP</h1>
-    <input type="text" id="username" name="name" class="form-control" placeholder="Name" autofocus>
-    <br/>
+    <input type="text" id="username" name="name" class="form-control" placeholder="@username" autofocus>
     <textarea id="message" name="message" class="form-control" rows="3" placeholder="Post your first message!" required></textarea>
-    <br/>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" name="postmessage" >Post</button>
+    <button id="enter" class="btn btn-lg btn-primary btn-block" type="submit" name="postmessage" >Post</button>
 
 </form>
+
+<script>
+    //submit on enter press
+    var input = document.getElementById("getin");
+    input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("enter").click();
+        }
+    });
+</script>
 
 
 </body>
