@@ -23,7 +23,7 @@
         <%
         if(session.getAttribute("theme") != null){
             if(session.getAttribute("theme").equals("light")){
-                %>
+        %>
         <%@include file="/ressources/style/firstStyle.css"%>
         <%
             } else {
