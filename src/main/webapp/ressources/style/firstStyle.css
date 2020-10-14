@@ -78,6 +78,12 @@ select{
     margin: 4px 2px;
 }
 
+.filterClear,.downloading, .themeSwitch{
+    border:solid;
+}
+
+
+
 /*-css
 -body margin 0
 -container class assignment to div(covers up the entire body)

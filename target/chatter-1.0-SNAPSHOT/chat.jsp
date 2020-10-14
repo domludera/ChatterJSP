@@ -64,25 +64,31 @@
     </div>
     <div class = "content-small">
         <form action="BasicServlet" method="get">
-            <input type="date" id="from" name="from">
-            <input type="date" id="to" name="to">
-            <select name="format">
-                <option value="plain">plain/text</option>
-                <option value="xml">xml</option>
-            </select>
-            <br/>
-            <input type="submit" name="getmessage" value="Filter"/>
-            <input type="submit" name="clear" value="Clear">
-            <input type="submit" name="download" value="Download">
+            <div class = "filterClear">
+                <input type="date" id="from" name="from">
+                <input type="submit" name="getmessage" value="Filter"/>
+                <br/>
+                <input type="date" id="to" name="to">
+                <input type="submit" name="clear" value="Clear">
+            </div>
+            <div class = "downloading">
+                <select name="format">
+                    <option value="plain">plain/text</option>
+                    <option value="xml">xml</option>
+                </select>
+                <input type="submit" name="download" value="Download">
+            </div>
+
         </form>
 
         <form action="BasicServlet" method="get">
-            <select name="theme">
-                <option value="light">light theme</option>
-                <option value="dark">dark theme</option>
-            </select>
-            <input type="submit" name="changetheme" value="Change Theme">
-
+            <div class = "themeSwitch">
+                <select name="theme">
+                    <option value="light">light theme</option>
+                    <option value="dark">dark theme</option>
+                </select>
+                <input type="submit" name="changetheme" value="Change Theme">
+            </div>
         </form>
     </div>
 </div>
