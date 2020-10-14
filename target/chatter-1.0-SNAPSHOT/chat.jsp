@@ -10,40 +10,46 @@
 <html>
 <head>
     <title>ChatApp</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="WEB-INF/style/index.css">
-
+    <style><%@include file="/firstStyle.css"%></style>
 </head>
-<body class="text-center">
-<%
-    if (session.getAttribute("n") == null) {
-        session.setAttribute("n", request.getParameter("name"));
-    }
-%>
-<h1>${s}</h1>
+<body>
+<div class = "container">
+    <div class="header">
+        <h1>Chatter App</h1>
+    </div>
+    <div class = "content-large">
+        <%
+            if (session.getAttribute("n") == null) {
+                session.setAttribute("n", request.getParameter("name"));
+            }
+        %>
 
-
-<form action="BasicServlet" method="post">
-    <input type="text" name="name" value="<%=session.getAttribute("n")%>" hidden/>
-    Message: <input type="text" name="message"/>
-    <input type="submit" name="postmessage" value="Post"/>
-</form>
-
-<form action="BasicServlet" method="get">
-    <input type="date" id="from" name="from">
-    <input type="date" id="to" name="to">
-
-    <select name="format">
-        <option value="plain">plain/text</option>
-        <option value="xml">xml</option>
-    </select>
-
-    <input type="submit" name="getmessage" value="Filter"/>
-    <input type="submit" name="clear" value="Clear">
-    <input type="submit" name="download" value="Download">
-
-</form>
-
-
+        <p>${s}</p>
+    </div>
+    <div class = "footer">
+        <form action="BasicServlet" method="post">
+            <input type="text" name="name" value="<%=session.getAttribute("n")%>" hidden/>
+            <input type="text" name="message"/>
+            <input type="submit" name="postmessage" value="Post"/>
+        </form>
+    </div>
+    <div class = "content-small">
+        <form action="BasicServlet" method="get">
+            <input type="date" id="from" name="from">
+            <input type="date" id="to" name="to">
+            <select name="format">
+                <option value="plain">plain/text</option>
+                <option value="xml">xml</option>
+            </select>
+            <br/>
+            <input type="submit" name="getmessage" value="Filter"/>
+            <input type="submit" name="clear" value="Clear">
+            <br/>
+            <input type="submit" name="download" value="Download">
+        </form>
+    </div>
+</div>
 </body>
 </html>
