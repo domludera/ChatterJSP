@@ -23,7 +23,7 @@
         <%
         if(session.getAttribute("theme") != null){
             if(session.getAttribute("theme").equals("light")){
-                %>
+        %>
         <%@include file="/ressources/style/firstStyle.css"%>
         <%
             } else {
@@ -66,13 +66,13 @@
         <form action="BasicServlet" method="get">
             <input type="date" id="from" name="from">
             <input type="date" id="to" name="to">
+            <input type="submit" name="getmessage" value="Filter"/>
+            <input type="submit" name="clear" value="Clear">
+            <br/>
             <select name="format">
                 <option value="plain">plain/text</option>
                 <option value="xml">xml</option>
             </select>
-            <br/>
-            <input type="submit" name="getmessage" value="Filter"/>
-            <input type="submit" name="clear" value="Clear">
             <input type="submit" name="download" value="Download">
         </form>
 

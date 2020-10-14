@@ -183,6 +183,8 @@ public class BasicServlet extends HttpServlet {
         }
 
         else if (request.getParameter("changetheme") != null){
+            s = cm.getLog();
+            request.setAttribute("s", s);
             request.getRequestDispatcher("chat.jsp").forward(request, response);
         }
         // Regular GET request (landing page)
