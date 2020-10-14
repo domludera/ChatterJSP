@@ -93,10 +93,9 @@ public class BasicServlet extends HttpServlet {
                     }
                     cm.clearLog(from, to);
 
+                } else {
+                    cm.clearLog();
                 }
-            }
-            else {
-                cm.clearLog();
             }
             s = cm.getLog();
             request.setAttribute("s", s);

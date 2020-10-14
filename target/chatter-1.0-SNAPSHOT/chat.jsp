@@ -12,7 +12,7 @@
     <title>ChatApp</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <style><%@include file="/firstStyle.css"%></style>
+    <style><%@include file="/ressources/style/firstStyle.css"%></style>
 </head>
 <body>
 <div class = "container">
@@ -46,7 +46,6 @@
             <br/>
             <input type="submit" name="getmessage" value="Filter"/>
             <input type="submit" name="clear" value="Clear">
-            <br/>
             <input type="submit" name="download" value="Download">
         </form>
     </div>

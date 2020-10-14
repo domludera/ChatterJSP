@@ -9,7 +9,7 @@ input[type = date], input[type = text], input[type = submit]{
 
 body {
    border:0;
-    background-image: url("background_image_dark.jpg");
+    background-image: url("../../background_image_dark.jpg");
 }
 
 .container{
