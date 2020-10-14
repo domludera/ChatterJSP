@@ -8,8 +8,10 @@ input[type = date], input[type = text], input[type = submit]{
 }
 
 body {
-   border:0;
-    background-image: url("../../background_image_dark.jpg");
+   border: 0;
+    /*background-image: url("../../background_image_dark.jpg");*/
+    background-color: aqua;
+
 }
 
 .container{
@@ -38,7 +40,8 @@ body {
     background-color: white;
     overflow: hidden;
     overflow-y:scroll;
-    scroll-snap-type: y proximity;
+    height: 100%;
+    scroll-snap-type: y mandatory;
 }
 
 .content-large>p:last-child{
@@ -74,6 +77,12 @@ select{
     display: inline-block;
     margin: 4px 2px;
 }
+
+.filterClear,.downloading, .themeSwitch{
+    border:solid;
+}
+
+
 
 /*-css
 -body margin 0
