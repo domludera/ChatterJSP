@@ -23,7 +23,7 @@
         <%
         if(session.getAttribute("theme") != null){
             if(session.getAttribute("theme").equals("light")){
-                %>
+        %>
         <%@include file="/ressources/style/firstStyle.css"%>
         <%
             } else {
@@ -93,8 +93,11 @@
     </div>
 </div>
 <script>
+    /*
     var objDiv = document.getElementById("message-content");
     objDiv.scrollTop = objDiv.scrollHeight;
+
+     */
 </script>
 </body>
 </html>

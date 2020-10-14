@@ -87,11 +87,7 @@ select{
     margin: 4px 2px;
 }
 
-/*.filterClear,.themeSwitch,.downloading{*/
-/*    border: solid gold;*/
-/*    box-sizing: border-box;*/
-/*}*/
-
-form{
-    border: gold solid;
+.filterClear,.themeSwitch,.downloading{
+    border: solid gold;
+    box-sizing: border-box;
 }
