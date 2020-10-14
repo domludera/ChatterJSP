@@ -1,0 +1,109 @@
+input[type = date], input[type = text], input[type = submit]{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+}
+
+body {
+   border:0;
+    background-image: url("../../background_image_dark.jpg");
+}
+
+.container{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows:100px 1fr 1fr 300px;
+    gap:10px;
+
+}
+
+.header{
+    color:black;
+    grid-column: 1/4;
+    font-family:sans-serif;
+    background-color: lightgrey;
+}
+
+.content-large{
+    grid-column: 1/3;
+    grid-row: 2/4;
+    border:darkgray;
+    border:solid 2px;
+    font-family:sans-serif;
+    background-color: white;
+    overflow: hidden;
+    overflow-y:scroll;
+    scroll-snap-type: y proximity;
+}
+
+.content-large>p:last-child{
+    scroll-snap-align: end;
+}
+
+.content-small{
+    grid-column: 3/4;
+}
+
+.footer{
+    grid-column:1/4;
+    grid-row: 4/5;
+}
+
+
+button{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+}
+
+select{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+}
+
+/*-css
+-body margin 0
+-container class assignment to div(covers up the entire body)
+-.class selector
+-vw, vh, viewport width %, view height same (100 x 100)
+-font-family, font-weight, font-size
+-display: grid
+-grid-template-columns: 1fr(fraction) 1fr 1fr, or repeat(num, 1fr)
+-grid-template-rows:
+-arguments for above are: top, bottom, fixed height, the middle rows adjust their size based on remaining viewport spaces
+i.e. 50px 1fr 1fr 100px
+-this can be merged together using the grid-template rowDimensions/columnDimensions as well
+-gap specifies seperation between grid tiles
+-if you use padding, need to use box-sizing:border-box
+-can check layout in devtool
+-then add .container div with padding and border if you want each grid element to have them
+-this completes the setup for the particular grid system
+
+each div inside the main div will be a grid element, adjust sive through:
+-grid-column-start
+-grid-column-end
+they are grid line numbers(i.e. 4 grid lines for 3 columns, start with number 1)
+
+-the location of the div seems to depends on their column foot print, once a row run out, the next div is squished into the next one
+
+-content-large and content-small should be in their own classes with row size specifictation
+-grid-row-start (starting grid line num)
+-grud-row-end: span num (how many lines it takes up since row-start), or you can just enter the actual grid line
+
+-footer class
+-grid-columm: start/end, alternative to the two lines notation
+*/

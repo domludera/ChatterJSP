@@ -11,16 +11,22 @@
 <html>
 <head>
     <title>Welcome!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style><%@include file="/ressources/style/index.css"%></style>
+
 </head>
-<body>
-<h1>${s}</h1>
+<body class="text-center">
 
 
-<form action="BasicServlet" method="post">
-    Username: <input type="text" name="name"/>
-    Message: <input type="text" name="message"/>
-    <input type="submit" name="postmessage" value="Post"/>
-    <input type="submit" name="clear" value="Clear">
+<form class="form-signin" action="BasicServlet" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal">Chatter JSP</h1>
+    <input type="text" id="username" name="name" class="form-control" placeholder="Name" autofocus>
+    <br/>
+    <textarea id="message" name="message" class="form-control" rows="3" placeholder="Post your first message!" required></textarea>
+    <br/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" name="postmessage" >Post</button>
+
 </form>
 
 

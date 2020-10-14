@@ -80,20 +80,22 @@ public class BasicServlet extends HttpServlet {
         else if (request.getParameter("clear") != null) {
             String fromString = request.getParameter("from");
             String toString = request.getParameter("to");
-            if (!fromString.isEmpty() && !toString.isEmpty()) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
-                Date from = new Date();
-                Date to = new Date();
-                try {
-                    from = formatter.parse(fromString);
-                    to = formatter.parse(toString);
-                } catch (ParseException e) {
+            if(fromString!=null&& toString!=null) {
+                if (!fromString.isEmpty() && !toString.isEmpty()) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
+                    Date from = new Date();
+                    Date to = new Date();
+                    try {
+                        from = formatter.parse(fromString);
+                        to = formatter.parse(toString);
+                    } catch (ParseException e) {
 
+                    }
+                    cm.clearLog(from, to);
+
+                } else {
+                    cm.clearLog();
                 }
-                cm.clearLog(from, to);
-
-            } else {
-                cm.clearLog();
             }
             s = cm.getLog();
             request.setAttribute("s", s);
