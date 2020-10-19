@@ -108,9 +108,11 @@ public class BasicServlet extends HttpServlet {
 
             } else if (request.getParameter("download") != null) {
                 String[][] info = cm.getLogArray();
+                response.setContentType("application/octet-stream");
+                response.setHeader("Cache-Control", "no-cache");
+                response.setDateHeader("Expires", 0);
                 if (request.getParameter("format").equals("plain")) {
 
-                    response.setContentType("application/octet-stream");
                     response.setHeader("Content-Disposition", "attachment;filename=temp.txt");
 
                     try {
@@ -136,11 +138,11 @@ public class BasicServlet extends HttpServlet {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else if (request.getParameter("format").equals("xml")) {
+                }
+                else if (request.getParameter("format").equals("xml")) {
                     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder;
 
-                    response.setContentType("application/octet-stream");
                     response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
 
                     try {
