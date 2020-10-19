@@ -29,22 +29,25 @@ public class BasicServlet extends HttpServlet {
     ChatManager cm = new ChatManager();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        if (name.isEmpty()) {
-            name = "anonymous";
-        }
-        if (request.getParameter("postmessage") != null) {
-            request.setAttribute("s", cm.getLog());
 
-            String message = request.getParameter("message");
-            if (!message.isEmpty()) {
-                cm.setLog(name, message);
+        if(checkReferer(request)) {
+            String name = request.getParameter("name");
+            if (name.isEmpty()) {
+                name = "anonymous";
             }
-        }
+            if (request.getParameter("postmessage") != null) {
+                request.setAttribute("s", cm.getLog());
 
-        request.setAttribute("n", name);
-        request.setAttribute("s", cm.getLog());
-        request.getRequestDispatcher("chat.jsp").forward(request, response);
+                String message = request.getParameter("message");
+                if (!message.isEmpty()) {
+                    cm.setLog(name, message);
+                }
+            }
+
+            request.setAttribute("n", name);
+            request.setAttribute("s", cm.getLog());
+            request.getRequestDispatcher("chat.jsp").forward(request, response);
+        } else response.sendError(404);
 
 
     }
@@ -53,34 +56,12 @@ public class BasicServlet extends HttpServlet {
 
         String s;
 
-        // Handles getting the messages and filtering by date
-        if (request.getParameter("getmessage") != null) {
-            String fromString = request.getParameter("from");
-            String toString = request.getParameter("to");
-            if (!fromString.isEmpty() && !toString.isEmpty()) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
-                Date from = new Date();
-                Date to = new Date();
-                try {
-                    from = formatter.parse(fromString);
-                    to = formatter.parse(toString);
-                } catch (ParseException e) {
+        if(checkReferer(request)) {
 
-                }
-                s = cm.getLog(from, to);
-
-            } else {
-                s = cm.getLog();
-            }
-            request.setAttribute("s", s);
-            request.getRequestDispatcher("chat.jsp").forward(request, response);
-        }
-
-        // Handles clearing the messages
-        else if (request.getParameter("clear") != null) {
-            String fromString = request.getParameter("from");
-            String toString = request.getParameter("to");
-            if(fromString!=null&& toString!=null) {
+            // Handles getting the messages and filtering by date
+            if (request.getParameter("getmessage") != null) {
+                String fromString = request.getParameter("from");
+                String toString = request.getParameter("to");
                 if (!fromString.isEmpty() && !toString.isEmpty()) {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
                     Date from = new Date();
@@ -91,101 +72,124 @@ public class BasicServlet extends HttpServlet {
                     } catch (ParseException e) {
 
                     }
-                    cm.clearLog(from, to);
+                    s = cm.getLog(from, to);
 
                 } else {
-                    cm.clearLog();
+                    s = cm.getLog();
                 }
+                request.setAttribute("s", s);
+                request.getRequestDispatcher("chat.jsp").forward(request, response);
             }
-            s = cm.getLog();
-            request.setAttribute("s", s);
-            request.getRequestDispatcher("chat.jsp").forward(request, response);
 
-        } else if (request.getParameter("download") != null) {
-            String[][] info = cm.getLogArray();
-            if (request.getParameter("format").equals("plain")) {
+            // Handles clearing the messages
+            else if (request.getParameter("clear") != null) {
+                String fromString = request.getParameter("from");
+                String toString = request.getParameter("to");
+                if (fromString != null && toString != null) {
+                    if (!fromString.isEmpty() && !toString.isEmpty()) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
+                        Date from = new Date();
+                        Date to = new Date();
+                        try {
+                            from = formatter.parse(fromString);
+                            to = formatter.parse(toString);
+                        } catch (ParseException e) {
 
-                response.setContentType("application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment;filename=temp.txt");
+                        }
+                        cm.clearLog(from, to);
 
-                try {
-                    ServletOutputStream out = response.getOutputStream();
-                    StringBuilder sb = new StringBuilder();
-                    for(int i =0; i< info.length;i++){
-                        sb.append("name: "+info[i][0]+"\nmessage: "+info[i][1]+"\ndata: "+info[i][2]+"\n\n");
+                    } else {
+                        cm.clearLog();
                     }
-                    sb.append(System.lineSeparator());
-
-                    InputStream in =
-                            new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
-
-                    byte[] outputByte = new byte[sb.length()];
-                    //copy binary contect to output stream
-                    while (in.read(outputByte, 0, sb.length()) != -1) {
-                        out.write(outputByte, 0, sb.length());
-                    }
-                    in.close();
-                    out.flush();
-                    out.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            } else if (request.getParameter("format").equals("xml")) {
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder;
+                s = cm.getLog();
+                request.setAttribute("s", s);
+                request.getRequestDispatcher("chat.jsp").forward(request, response);
 
-                response.setContentType("application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
+            } else if (request.getParameter("download") != null) {
+                String[][] info = cm.getLogArray();
+                if (request.getParameter("format").equals("plain")) {
 
-                try {
-                    dBuilder = dbFactory.newDocumentBuilder();
-                    Document doc = dBuilder.newDocument();
-                    // add root element
-                    Element rootElem = doc.createElementNS("https://www.soen387.com/assignment1", "Messages");
-                    // append root element to document
-                    doc.appendChild(rootElem);
+                    response.setContentType("application/octet-stream");
+                    response.setHeader("Content-Disposition", "attachment;filename=temp.txt");
 
+                    try {
+                        ServletOutputStream out = response.getOutputStream();
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < info.length; i++) {
+                            sb.append("name: " + info[i][0] + "\nmessage: " + info[i][1] + "\ndata: " + info[i][2] + "\n\n");
+                        }
+                        sb.append(System.lineSeparator());
 
-                    for (int i = 0; i < info.length; i++) {
-                        Element message = doc.createElement("Message");
-                        Element nameNode = doc.createElement("Name");
-                        nameNode.appendChild(doc.createTextNode(info[i][0]));
-                        message.appendChild(nameNode);
-                        Element messageNode = doc.createElement("Message");
-                        messageNode.appendChild(doc.createTextNode(info[i][1]));
-                        message.appendChild(messageNode);
-                        Element dateNode = doc.createElement("Date");
-                        dateNode.appendChild(doc.createTextNode(info[i][2]));
-                        message.appendChild(dateNode);
-                        rootElem.appendChild(message);
+                        InputStream in =
+                                new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
+
+                        byte[] outputByte = new byte[sb.length()];
+                        //copy binary contect to output stream
+                        while (in.read(outputByte, 0, sb.length()) != -1) {
+                            out.write(outputByte, 0, sb.length());
+                        }
+                        in.close();
+                        out.flush();
+                        out.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else if (request.getParameter("format").equals("xml")) {
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder;
 
-                    // create in xml format
-                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                    Transformer transformer = transformerFactory.newTransformer();
-                    // for formatting
-                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                    transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
-                    transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
-                    final DOMSource source = new DOMSource(doc);
-                    // output
-                    ServletOutputStream out = response.getOutputStream();
-                    transformer.transform(source, new StreamResult(out));
-                    out.flush();
-                    out.close();
+                    response.setContentType("application/octet-stream");
+                    response.setHeader("Content-Disposition", "attachment;filename=temp.xml");
 
-                } catch (ParserConfigurationException | TransformerException e) {
-                    e.printStackTrace();
+                    try {
+                        dBuilder = dbFactory.newDocumentBuilder();
+                        Document doc = dBuilder.newDocument();
+                        // add root element
+                        Element rootElem = doc.createElementNS("https://www.soen387.com/assignment1", "Messages");
+                        // append root element to document
+                        doc.appendChild(rootElem);
+
+
+                        for (int i = 0; i < info.length; i++) {
+                            Element message = doc.createElement("Message");
+                            Element nameNode = doc.createElement("Name");
+                            nameNode.appendChild(doc.createTextNode(info[i][0]));
+                            message.appendChild(nameNode);
+                            Element messageNode = doc.createElement("Message");
+                            messageNode.appendChild(doc.createTextNode(info[i][1]));
+                            message.appendChild(messageNode);
+                            Element dateNode = doc.createElement("Date");
+                            dateNode.appendChild(doc.createTextNode(info[i][2]));
+                            message.appendChild(dateNode);
+                            rootElem.appendChild(message);
+                        }
+
+                        // create in xml format
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = transformerFactory.newTransformer();
+                        // for formatting
+                        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+                        transformer.setOutputProperty("{https://xml.apache.org/xslt}indent-amount", "2");
+                        final DOMSource source = new DOMSource(doc);
+                        // output
+                        ServletOutputStream out = response.getOutputStream();
+                        transformer.transform(source, new StreamResult(out));
+                        out.flush();
+                        out.close();
+
+                    } catch (ParserConfigurationException | TransformerException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } else if (request.getParameter("changetheme") != null) {
+                s = cm.getLog();
+                request.setAttribute("s", s);
+                request.getRequestDispatcher("chat.jsp").forward(request, response);
             }
-        }
-
-        else if (request.getParameter("changetheme") != null){
-            s = cm.getLog();
-            request.setAttribute("s", s);
-            request.getRequestDispatcher("chat.jsp").forward(request, response);
         }
         // Regular GET request (landing page)
         else {
@@ -193,12 +197,21 @@ public class BasicServlet extends HttpServlet {
             request.setAttribute("s", s);
             String reqURI = request.getRequestURI();
             if(reqURI.contains("BasicServlet")){
-                request.getRequestDispatcher("chat.jsp").forward(request, response);
+                if(checkReferer(request)) {
+                    request.getRequestDispatcher("chat.jsp").forward(request, response);
+                } else response.sendError(404);
             } else{
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         }
 
+    }
+
+    protected boolean checkReferer(HttpServletRequest request){
+        String ref = request.getHeader("Referer");
+        if(ref != null && ref.contains("localhost:8080")){
+            return true;
+        } else return false;
     }
 
 

@@ -92,12 +92,5 @@
         </form>
     </div>
 </div>
-<script>
-    /*
-    var objDiv = document.getElementById("message-content");
-    objDiv.scrollTop = objDiv.scrollHeight;
-
-     */
-</script>
 </body>
 </html>
